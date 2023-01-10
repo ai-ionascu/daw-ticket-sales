@@ -38,14 +38,6 @@ function get_dep_stations(){
     return $stations;
 }
 
-$dep_stations = get_dep_stations();
-
-// echo count($stations)."\n";
-
-// foreach ($stations as $key => $value) {
-//     echo "$key => $value \n";
-// }
-
 function get_trains($stations){
     global $httpClient;
     $trains = array();
@@ -70,12 +62,6 @@ function get_trains($stations){
     }
     return $trains;
 }
-
-$trains = get_trains($dep_stations);
-
-print_r($trains);
-
-echo count($trains)."\n";
 
 function get_routes($trains){
 
@@ -162,9 +148,6 @@ function get_routes($trains){
     return $routes;
 }
 
-// $routes = get_routes(array_slice($trains,0,2));
-// print_r($routes);
-
 function search_nested($item, $arr){
     foreach ($arr as $k => $v){
         if (in_array($item, $v)){
@@ -174,42 +157,67 @@ function search_nested($item, $arr){
     return null;
 }
 
-function get_stations($routes){
+function get_departures($routes){
 
-    $stations = array();
+    $departures = array();
     foreach ($routes as $route){
-        $dep_lookup = search_nested($route['departure'], $stations);
-        if (is_null($dep_lookup)){
-            $stations[] = array('name' => $route['departure'], 'is_main_station' => 1);
-        }
-        else {
-            if ($stations[$dep_lookup]['is_main_station'] == 0) {
-                $stations[$dep_lookup]['is_main_station'] = 1;
-            }
-        }
-
-        $arr_lookup = search_nested($route['arrival'], $stations);
-        if (is_null($arr_lookup)){
-            $stations[] = array('name' => $route['arrival'], 'is_main_station' => 1);
-        }
-        else {
-            if ($stations[$arr_lookup]['is_main_station'] == 0) {
-                $stations[$arr_lookup]['is_main_station'] = 1;
-            }
-        }
-
-        foreach ($route['stations'] as $key => $details){
-            $st_lookup = search_nested($details['name'], $stations);
-            if (is_null($st_lookup)){
-                $stations[] = array('name' => $details['name'], 'is_main_station' => 0);
-            }
+        if (!in_array($route['departure'], $departures)){
+            array_push($departures,$route['departure']);
         }
     }
 
-    return $stations;
+    return $departures;
 }
 
-// $stations = get_stations($routes);
-// print_r($stations);
+function get_arrivals($routes){
+
+    $arrivals = array();
+    foreach ($routes as $route){
+        if (!in_array($route['arrival'], $arrivals)){
+            array_push($arrivals,$route['arrival']);
+        }
+    }
+
+    return $arrivals;
+}
+
+function get_stops($routes){
+
+    $stops = array();
+    foreach ($routes as $route){
+
+        $train = $route['train'];
+        if (is_null(search_nested($train, $stops))){
+            $stops[$train] = array();
+        }
+        else{
+            continue;
+        }
+
+        foreach ($route['stations'] as $key => $details){
+            $stop_details = array();
+            $stop_details['name'] = $details['name'];
+            $stop_details['order'] = $details['order'];
+            $stop_details['distance'] = $details['distance'];
+            $stop_details['arrival_time'] = trim($details['arrival_time'], " (a doua zi)");
+            $stop_details['next_day_arrival'] = $details['next_day_arrival'];
+
+            if (array_key_exists('departure_time', $details) && array_key_exists('next_day_departure', $details)){
+                $stop_details['departure_time'] = trim($details['departure_time'], " (a doua zi)");
+                $stop_details['next_day_departure'] = $details['next_day_departure'];
+            }
+            array_push($stops[$train],$stop_details);
+        }
+    }
+
+    return $stops;
+}
+
+$dep_stations = get_dep_stations();
+$trains = get_trains($dep_stations);
+$routes = get_routes($trains);
+$departures = get_departures($routes);
+$arrivals = get_arrivals($routes);
+$stops = get_stops($routes);
 
 ?>
