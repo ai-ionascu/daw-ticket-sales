@@ -1,0 +1,19 @@
+.navbar-brand {
+    display: block;
+    width: 75px;
+    height: 75px;
+    margin: 0px;
+    padding: 0px;
+    background-image: url("../resources/ico/logo_inv.svg");
+    background-size: 100% 100%;
+}
+
+.navbar-brand:hover{
+    display: block;
+    width: 75px;
+    height: 75px;
+    margin: 0px;
+    padding: 0px;
+    background-image: url("../resources/ico/logo_inv_select.svg");
+    background-size: 100% 100%;
+}
