@@ -23,41 +23,46 @@
                         <a class="nav-link" aria-current="page" href="index.php">Home</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
+                        <a class="nav-link" href="about.php">About</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link" href="#">New Trip</a>
+                        <a class="nav-link" href="booking.php">New Trip</a>
                         </li>
                         <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Dashboard
-                        </a>
-                        <ul class="dropdown-menu">
+                        <!-- <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> -->
+                        <?php
+                            if (isset($_SESSION['username'])){
+                                echo '<a class="nav-link" href="dashboard_page.php">Dashboard</a>';
+                            }
+                            else{
+                                echo '<a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Dashboard</a>';
+                            }
+                        ?>
+
+                        <!-- <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="dashboard.php">My Account</a></li>
                             <li><a class="dropdown-item" href="#">Another action</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
+                        </ul> -->
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
+                        <a class="nav-link" href="contact_page.php">Contact</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <?php
-                            if(isset($_SESSION['username'])){
-                                echo    '<li class="nav-item">
-                                            <a class="nav-link" aria-current="page" href="sign_out.php">Sign Out</a>
-                                        </li>';
-                            }
-                            else{
-                                echo    '<li class="nav-item">
-                                            <a class="nav-link" aria-current="page" href="login.php">Sign In</a>
-                                        </li>';
-                            }
-                        ?>
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="signup.php">Register</a>
+                            <?php
+                                if(isset($_SESSION['username'])){
+                                    echo    '<a class="nav-link" aria-current="page" href="logic/signout.php">Sign Out</a>';
+                                }
+                                else{
+                                    echo    '<a class="nav-link" aria-current="page" href="login_page.php">Sign In</a>';
+                                }
+                            ?>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="register_page.php">Register</a>
                         </li>
                     </ul>
                 </div>

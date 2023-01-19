@@ -24,7 +24,7 @@ include('./include/header.php') ;
                 </div>
                 <br><br><br>
                 <?php
-                if ($_SESSION['role'] == 'admin'){
+                if (isset($_SESSION['username']) && $_SESSION['role'] == 'admin'){
                     include('./logic/users_query.php');
                 }
                 ?>
