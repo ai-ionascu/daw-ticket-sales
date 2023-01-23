@@ -11,7 +11,7 @@ if(isset($_POST['send_code']))
         header("Location: ../register_page.php");
     }
     else{
-        $email = $_POST['email'];
+        $email = mysqli_real_escape_string($con, $_POST['email']);
 
         # verify if email exists
         $email_existing_query = "SELECT * FROM users WHERE email='$email' LIMIT 1";
@@ -52,7 +52,7 @@ if(isset($_POST['verify_code']))
         header("Location: ../register_page.php");
     }
     else{
-        $verification_code = $_POST['verification_code'];
+        $verification_code = mysqli_real_escape_string($con, $_POST['verification_code']);
         if($verification_code != $_SESSION['token']){
             # add message into session variable
             $_SESSION['error'] = "Wrong token.";
@@ -74,7 +74,7 @@ if(isset($_POST['reg_btn'])){
         $errors['username_err'] = "A username is required.";
     }
     else{
-        $username = $_POST['username'];
+        $username = mysqli_real_escape_string($con, $_POST['username']);
         # verify if username exists
         $username_existing_query = "SELECT * FROM users WHERE username='$username' LIMIT 1";
         $username_existing_query_run = mysqli_query($con, $username_existing_query); 
@@ -88,7 +88,7 @@ if(isset($_POST['reg_btn'])){
         $_SESSION['error'] = "Email not verified.";
     }
     else{
-        $email = $_POST['email_reg'];
+        $email = mysqli_real_escape_string($con, $_POST['email_reg']);
     }
 
     if(empty($_POST['password'])){
@@ -98,14 +98,14 @@ if(isset($_POST['reg_btn'])){
         $errors['repass_err'] = "Passwords do not match.";
     }
     else{
-        $password = crypt($_POST['password'], 'something');
+        $password = crypt(mysqli_real_escape_string($con, $_POST['password']), 'something');
     }
 
     if(empty($_POST['usertype'])){
         $errors['usertype_err'] = "Invalid user type selection.";
     }
     else{
-        $role = $_POST['usertype'];
+        $role = mysqli_real_escape_string($con, $_POST['usertype']);
     }
 
     if(!empty($_SESSION['error'])){
@@ -120,7 +120,7 @@ if(isset($_POST['reg_btn'])){
     else{
         // insert new user into database
         if ($role == 'user'){
-        $register_query = "INSERT INTO users (username, email, password, role, validated) 
+        $register_query = "INSERT INTO users (username, email, password, role, verified) 
                             VALUES('$username', '$email', '$password', '$role', 'yes')";
         }
         else{
@@ -130,8 +130,8 @@ if(isset($_POST['reg_btn'])){
         $register_query_con = mysqli_query($con, $register_query);
 
         // grant the 'user_role' role to the new user
-        $assign_role = "GRANT user_role TO '$username'@'%'";
-        $assign_role_con = mysqli_query($con, $assign_role);
+        // $assign_role = "GRANT user_role TO '$username'@'%'";
+        // $assign_role_con = mysqli_query($con, $assign_role);
 
         $_SESSION['username'] = $username;
         $_SESSION['success'] = 'You have been successfully registered.';

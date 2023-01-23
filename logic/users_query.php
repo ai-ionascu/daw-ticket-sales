@@ -32,7 +32,7 @@ $users_page = mysqli_query($con, "SELECT * FROM users LIMIT $start,$items_per_pa
                 <th>Email</th>
                 <th>Password</th>
                 <th>Role</th>
-                <th>Validated</th>
+                <th>Verified</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -45,7 +45,7 @@ while ($row = mysqli_fetch_array($users_page)){
     echo '<td>'.$row['email'].'</td>';
     echo '<td>'.$row['password'].'</td>';
     echo '<td>'.$row['role'].'</td>';
-    echo '<td>'.$row['validated'].'</td>';
+    echo '<td>'.$row['verified'].'</td>';
     ?>
                     <td>
                         <div class="dropdown">
@@ -54,7 +54,7 @@ while ($row = mysqli_fetch_array($users_page)){
                             </button>
                             <div class="dropdown-menu">
                             <?php
-                            if (empty($row['validated'])){
+                            if (empty($row['verified'])){
                                 echo 
                                     '<a class="dropdown-item" href=""
                                     ><i class="bx bx-edit-alt me-1"></i> Validate</a>';
