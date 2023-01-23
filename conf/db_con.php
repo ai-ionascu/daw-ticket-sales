@@ -1,7 +1,7 @@
 <?php
 require_once('config.php');
 
-$url = getenv('JAWSDB_URL');
+$url = getenv('CLEARDB_DATABASE_URL');
 $dbparts = parse_url($url);
 
 if ($_SERVER['HTTP_HOST'] == 'localhost') {
@@ -23,11 +23,6 @@ if (mysqli_connect_errno()) {
   exit();
 }
 
-if ($_SERVER['HTTP_HOST'] == 'localhost') {
-  mysqli_select_db($con, "ticket_sales");
-}
-else{
-  mysqli_select_db($con, "t83g94b0z25s43zs");
-}
+mysqli_select_db($con, $db_name);
 
 ?>
