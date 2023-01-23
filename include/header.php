@@ -26,7 +26,7 @@
                         <a class="nav-link" href="about.php">About</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link" href="booking.php">New Trip</a>
+                        <a class="nav-link" href="booking_page.php">New Trip</a>
                         </li>
                         <li class="nav-item dropdown">
                         <!-- <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> -->
