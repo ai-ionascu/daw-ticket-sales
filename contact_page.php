@@ -6,7 +6,7 @@ include('include/header.php') ;
 include(dirname(__FILE__).'/conf/db_con.php');
 ?>
 
-<h1>Home Page</h1>
+<h1>Contact Page</h1>
 <div class="container">
   <div class="row">
     <div class="col-xl">
