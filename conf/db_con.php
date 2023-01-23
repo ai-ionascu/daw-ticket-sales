@@ -20,7 +20,7 @@ if (mysqli_connect_errno()) {
   exit();
 }
 
-mysqli_select_db($con, "ticket_sales");
-// mysqli_select_db($con, "t83g94b0z25s43zs");
+// mysqli_select_db($con, "ticket_sales");
+mysqli_select_db($con, "t83g94b0z25s43zs");
 
 ?>
