@@ -23,7 +23,7 @@
                         <a class="nav-link" aria-current="page" href="index.php">Home</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link" href="about.php">About</a>
+                        <a class="nav-link" href="about_page.php">About</a>
                         </li>
                         <li class="nav-item">
                         <a class="nav-link" href="booking_page.php">New Trip</a>
