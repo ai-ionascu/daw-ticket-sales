@@ -4,10 +4,6 @@ session_start();
 
 include('../conf/db_con.php');
 
-function send_email($email, $token){
-    include('send_verif_email.php');
-}
-
 if(isset($_POST['send_code']))
 {   
     if(empty($_POST['email'])){
@@ -33,7 +29,7 @@ if(isset($_POST['send_code']))
             $token = rand(100000, 999999);
 
             # send token email
-            send_email("$email", "$token");
+            include('send_verif_email.php');
 
             # save user data into user session data
             $_SESSION['email'] = $email;
