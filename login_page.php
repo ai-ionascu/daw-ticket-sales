@@ -43,7 +43,7 @@ include('include/header.php') ;
                             </div>
                         </form>
                         <p>
-                            Not yet a member? <a href="signup.php">Sign up</a>
+                            Not yet a member? <a href="register_page.php">Sign up</a>
                         </p>
                     </div>
                 </div>
