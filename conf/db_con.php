@@ -1,10 +1,10 @@
 <?php
-require_once('config.php');
 
 $url = getenv('JAWSDB_URL');
 $dbparts = parse_url($url);
 
 if ($_SERVER['HTTP_HOST'] == 'localhost') {
+  require_once('config.php');
   $servername = $config['SERVER_NAME'];
   $username = $config['DB_USER'];
   $password = $config['DB_PASS'];
