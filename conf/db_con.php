@@ -1,7 +1,7 @@
 <?php
 require_once('config.php');
 
-$url = getenv('CLEARDB_DATABASE_URL');
+$url = getenv('JAWSDB_URL');
 $dbparts = parse_url($url);
 
 if ($_SERVER['HTTP_HOST'] == 'localhost') {
