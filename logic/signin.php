@@ -32,6 +32,7 @@ if(isset($_POST['login'])){
             $_SESSION['username'] = $user_info['username'];
             $_SESSION['email'] = $user_info['email'];
             $_SESSION['role'] = $user_info['role'];
+            $_SESSION['logged_in'] = true;
             $_SESSION['success'] = 'You have successfully signed in.';
             header('Location: ../index.php');
         }

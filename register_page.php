@@ -1,9 +1,13 @@
 <?php
+
 session_start();
 
-unset($_SESSION['username']);
-unset($_SESSION['email']);
-unset($_SESSION['role']);
+if (isset($_SESSION['logged_in'])){
+    unset($_SESSION['logged_in']);
+    unset($_SESSION['username']);
+    unset($_SESSION['email']);
+    unset($_SESSION['role']);
+}
 
 if(isset($_SESSION['visibility'])){
     $visibility = $_SESSION['visibility'];
@@ -128,7 +132,7 @@ else{
                             </div>
                             <div class="form-group mb-3">
                                 <label for="email_reg">Your Email Address</label>
-                                <input type="email" name="email_reg" id="email_reg" class="form-control" value="<?php echo $_SESSION['email']; ?>">
+                                <input type="email" name="email_reg" id="email_reg" class="form-control" value="<?php if (isset($_SESSION['email'])){echo $_SESSION['email'];} ?>">
                             </div>
                             <div class="form-group mb-3">
                                 <label for="password">Password</label>
@@ -190,29 +194,4 @@ else{
     </div>
 </div>
 
-<!-- <script type="text/javascript">
-$(document).ready(function(){
-    $(#send_code).on("submit",function(e){
-        e,preventDefault();
-        var email = $(#email).val()
-        $.ajax({
-            url: "send_email.php",
-            type: "POST"
-            cache: false,
-            data: {email:email},
-            success: function(response){
-                var jsonData = JSON.parse(response);
-                if (jsonData.response == "1"){
-                    $(.alert-success, #code_verification_form).show();
-                    $(#registration_form).hide();
-                }
-                else{
-                    $(.alert-error).show();
-                }
-                
-            }
-        });
-    });
-});
-</script> -->
 <?php include('include/tail.php') ?>

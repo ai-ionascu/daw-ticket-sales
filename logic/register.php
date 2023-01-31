@@ -11,8 +11,7 @@ if(isset($_POST['send_code']))
         header("Location: ../register_page.php");
     }
     else{
-        $email = mysqli_real_escape_string($con, $_POST['email']);
-
+        $email = $_POST['email'];
         # verify if email exists
         $email_existing_query = "SELECT * FROM users WHERE email='$email' LIMIT 1";
         $email_existing_query_run = mysqli_query($con, $email_existing_query);
@@ -64,6 +63,7 @@ if(isset($_POST['verify_code']))
             # save user data into user session data
             $_SESSION['success'] = "Code successfully verified.";
             $_SESSION['visibility'] = array(0,0,1);
+            unset($_SESSION['token']);
             header("Location: ../register_page.php");
         }
     }
@@ -134,7 +134,10 @@ if(isset($_POST['reg_btn'])){
         // $assign_role_con = mysqli_query($con, $assign_role);
 
         $_SESSION['username'] = $username;
+        $_SESSION['role'] = $role;
+        $_SESSION['logged_in'] = true;
         $_SESSION['success'] = 'You have been successfully registered.';
+        mysqli_close($con);
         header('Location: ../index.php');
     }
 }

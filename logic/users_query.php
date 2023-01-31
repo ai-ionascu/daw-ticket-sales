@@ -1,6 +1,7 @@
 <?php
 
 include('./conf/db_con.php');
+include('./include/alerts.php');
 
 $users_query = mysqli_query($con, "SELECT * FROM users");
 $users_count = mysqli_num_rows($users_query);
@@ -25,7 +26,7 @@ else{
     $start = $page * $items_per_page - $items_per_page;
 }
 
-$users_page = mysqli_query($con, "SELECT * FROM users LIMIT $start,$items_per_page");
+$users_page = mysqli_query($con, "SELECT * FROM users LIMIT ".$start.",".$items_per_page);
 ?>
 
 <div class="card users-query">
@@ -113,18 +114,20 @@ while ($row = mysqli_fetch_array($users_page)){
 
         <?php
     }
-    else if (isset($_GET['delete'])){
+    else if (isset($_GET['delete']) && $row['username']  == $_GET['usr']){
         ?>
             <td><?php echo $row['role'] ?></td>
             <td><?php echo $row['verified'] ?></td>
 
                 <form action="logic/delete_user.php" method="post">
                     <div class="form-group mb-3">
-                        <input type="hidden" id="user_to_delete" name="user_to_delete" value="<?php echo $row['username'] ?>">
+                        <input type="hidden" id="user_to_delete" name="user_to_delete" value="<?php echo $row['id'] ?>">
+                        <input type="hidden" id="username_to_delete" name="username_to_delete" value="<?php echo $row['username'] ?>">
+                        <input type="hidden" id="page" name="page" value="<?php echo $page ?>">
                     </div>
                     <div class="form-group">
                         <td class="text-center">
-                            <button type="submit" name="update" class="btn btn-primary">Delete</button>
+                            <button type="submit" name="delete" class="btn btn-primary">Delete</button>
                             <a class="btn btn-primary" href="<?php echo $_SERVER['PHP_SELF'] ?>" role="button">Cancel</a>
                         </td>
                     </div>
