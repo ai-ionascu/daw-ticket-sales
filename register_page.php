@@ -45,7 +45,7 @@ echo '<div name="email_verification_form" id="email_verification_form" class="py
                         <h5>Email Verification</h5>
                     </div>
                     <div class="card-body">
-                        <form id="email_form" action="logic/register.php" method="POST">
+                        <form id="email_form" action="./logic/register.php" method="POST">
                             <div class="form-group mb-3">  
                                 <label for="email">Enter a valid email address</label> 
                                 <input type="text" class="form-control" name="email" id="email" placeholder="Type your email address here">
@@ -79,7 +79,7 @@ else{
                         <h5>Verify Code</h5>
                     </div>
                     <div class="card-body">
-                    <form id="code_form" action="logic/register.php" method="POST">
+                    <form id="code_form" action="./logic/register.php" method="POST">
                         <div class="form-group mb-3">  
                             <label for="mobile">Enter the code received on your email</label>
                             <input type="text" class="form-control" name="verification_code" id="verification_code" placeholder="Type your code here">
@@ -119,7 +119,7 @@ else{
                         <h5>New User Registration</h5>
                     </div>
                     <div class="card-body">
-                        <form id="register" action="logic/register.php" method="POST">
+                        <form id="register" action="./logic/register.php" method="POST">
                             <div class="form-group mb-3">
                                 <label for="username">Username</label>
                                 <input type="text" name="username" class="form-control">
