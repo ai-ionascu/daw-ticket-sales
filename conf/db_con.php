@@ -12,9 +12,9 @@ if ($_SERVER['HTTP_HOST'] == 'localhost') {
 }
 else{
   $servername = getenv('freedb_host');
-  $username = getenv['freedb_user'];
-  $password = getenv['freedb_pass'];
-  $db_name = getenv['freedb_db_name'];
+  $username = getenv('freedb_user');
+  $password = getenv('freedb_pass');
+  $db_name = getenv('freedb_db_name');
 }
 
 $con = mysqli_connect($servername, $username, $password, $db_name);
