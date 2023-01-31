@@ -12,7 +12,7 @@ if(isset($_POST['delete'])){
     }
     else{
         $delete_query = mysqli_query($con, "DELETE FROM users WHERE id='$user_id'");
-        if(true){
+        if(delete_query){
             $_SESSION['success'] = 'User '.$username.' has been sucessfully deleted.';
         } else {
             $_SESSION['error'] = "Error: " . mysqli_error($con);
