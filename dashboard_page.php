@@ -14,6 +14,12 @@ include('./include/header.php') ;
                            <h5>Hi 
                             <?php if (isset($_SESSION['username'])){
                                 echo $_SESSION['username'].'. Your role is "'.$_SESSION['role'].'"';
+                                if (!empty($_SESSION['verified'])){
+                                    echo ' (verified)';
+                                }
+                                else{
+                                    echo ' (not verified)';
+                                }
                             }
                             else{
                                 echo 'Guest';
@@ -24,7 +30,7 @@ include('./include/header.php') ;
                 </div>
                 <br><br><br>
                 <?php
-                if (isset($_SESSION['username']) && $_SESSION['role'] == 'admin'){
+                if (isset($_SESSION['username']) && $_SESSION['role'] == 'admin' && isset($_SESSION['verified'])){
                     include('./logic/users_query.php');
                 }
                 ?>

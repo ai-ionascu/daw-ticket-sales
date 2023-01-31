@@ -7,6 +7,7 @@ if (isset($_SESSION['logged_in'])){
     unset($_SESSION['username']);
     unset($_SESSION['email']);
     unset($_SESSION['role']);
+    unset($_SESSION['verified']);
 }
 
 if(isset($_SESSION['visibility'])){

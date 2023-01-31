@@ -122,6 +122,7 @@ if(isset($_POST['reg_btn'])){
         if ($role == 'user'){
         $register_query = "INSERT INTO users (username, email, password, role, verified) 
                             VALUES('$username', '$email', '$password', '$role', 'yes')";
+        $_SESSION['verified'] = true;
         }
         else{
             $register_query = "INSERT INTO users (username, email, password, role) 
