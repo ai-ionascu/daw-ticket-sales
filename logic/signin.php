@@ -16,6 +16,7 @@ if(isset($_POST['login'])){
     }
 
     if(empty($login_errors)){
+
         $password = crypt($password, 'something');
         $query_user = "SELECT * FROM users WHERE username = '$login_data' AND password = '$password'";
         $query_email = "SELECT * FROM users WHERE email = '$login_data' AND password = '$password'";
@@ -29,15 +30,26 @@ if(isset($_POST['login'])){
             if(mysqli_num_rows($email_res) == 1){
                 $user_info = mysqli_fetch_assoc($email_res);
             }
-            $_SESSION['username'] = $user_info['username'];
-            $_SESSION['email'] = $user_info['email'];
-            $_SESSION['role'] = $user_info['role'];
-            if (!empty($user_info['verified'])){
-                $_SESSION['verified'] = true;
+
+            $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$rec_secret_key."&response=".$_POST['g-recaptcha-response']);
+            $response = json_decode($response, true);
+
+            if($response["success"] === true){
+
+                $_SESSION['username'] = $user_info['username'];
+                $_SESSION['email'] = $user_info['email'];
+                $_SESSION['role'] = $user_info['role'];
+                if (!empty($user_info['verified'])){
+                    $_SESSION['verified'] = true;
+                }
+                $_SESSION['logged_in'] = true;
+                $_SESSION['success'] = 'You have successfully signed in.';
+                header('Location: ../index.php');
             }
-            $_SESSION['logged_in'] = true;
-            $_SESSION['success'] = 'You have successfully signed in.';
-            header('Location: ../index.php');
+            else{
+                $_SESSION['error'] = 'Recaptcha confirmation required.';
+                header('Location: ../login_page.php');
+            } 
         }
         else{
             $_SESSION['error'] = 'Incorrect login information.';

@@ -15,6 +15,7 @@ else{
   $username = getenv('freedb_user');
   $password = getenv('freedb_pass');
   $db_name = getenv('freedb_db_name');
+  $rec_secret_key = getenv('rec_secret_key');
 }
 
 $con = mysqli_connect($servername, $username, $password, $db_name);

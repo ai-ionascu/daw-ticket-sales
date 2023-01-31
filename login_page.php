@@ -38,6 +38,9 @@ include('include/header.php') ;
                                     ?>
                                 </span>
                             </div>
+                            <div class="form-group mb-3">
+                                <div class="g-recaptcha" data-sitekey="6LfGgEAkAAAAAOKuMXqTjht9HkD7nWk_TyzieVlr"></div>
+                            </div>
                             <div class="form-group">
                                 <button type="submit" name="login" class="btn btn-primary float-end">Sign In</button>
                             </div>
