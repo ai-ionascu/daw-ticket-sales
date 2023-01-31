@@ -53,9 +53,14 @@ while ($row = mysqli_fetch_array($users_page)){
     echo '<td>'.$row['email'].'</td>';
     echo '<td>'.$row['password'].'</td>';
 
-    if (isset($_GET['update'])){ 
+    if (isset($_GET['update']) && $row['username']  == $_GET['usr']){ 
         ?>
             <form action="logic/update_user.php" method="post">
+                <div class="form-group mb-3">
+                    <input type="hidden" id="user_to_update" name="user_to_update" value="<?php echo $row['id'] ?>">
+                    <input type="hidden" id="username_to_update" name="username_to_update" value="<?php echo $row['username'] ?>">
+                    <input type="hidden" id="page" name="page" value="<?php echo $page ?>">
+                </div>
                 <div class="form-group mb-3">
                     <td>
                         <select name="role" id="role">
