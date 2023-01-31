@@ -24,7 +24,7 @@ if(isset($_POST['update'])){
     $username = $_POST['username_to_update'];
 
     if ($username == $_SESSION['username']){
-        $_SESSION['error'] = "You cannot delete your own user.";
+        $_SESSION['error'] = "You cannot unverify your own user.";
     }
     else if (isset($_SESSION['error'])){
         header("Location: ../dashboard_page.php?page=$p");
