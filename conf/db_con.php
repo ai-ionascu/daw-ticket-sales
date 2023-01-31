@@ -1,7 +1,7 @@
 <?php
 
-$url = getenv('JAWSDB_URL');
-$dbparts = parse_url($url);
+// $url = getenv('JAWSDB_URL');
+// $dbparts = parse_url($url);
 
 if ($_SERVER['HTTP_HOST'] == 'localhost') {
   require_once('config.php');
@@ -11,10 +11,10 @@ if ($_SERVER['HTTP_HOST'] == 'localhost') {
   $db_name = $config['DB_NAME'];
 }
 else{
-  $servername = $dbparts['host'];
-  $username = $dbparts['user'];
-  $password = $dbparts['pass'];
-  $db_name = ltrim($dbparts['path'],'/');
+  $servername = getenv('freedb_host');
+  $username = getenv['freedb_user'];
+  $password = getenv['freedb_pass'];
+  $db_name = getenv['freedb_db_name'];
 }
 
 $con = mysqli_connect($servername, $username, $password, $db_name);
