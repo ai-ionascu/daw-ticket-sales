@@ -41,12 +41,12 @@ if(isset($_POST['login'])){
         }
         else{
             $_SESSION['error'] = 'Incorrect login information.';
-            header('Location: ./login_page.php');
+            header('Location: ../login_page.php');
         }
     }
     else{
         $_SESSION['login_errors'] = $login_errors;
-        header('Location: ./login_page.php');
+        header('Location: ../login_page.php');
     }
 }
 ?>
