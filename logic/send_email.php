@@ -64,22 +64,22 @@ function sendEmail($from, $from_name, $to, $to_name, $subject, $body){
     $mail->SMTPSecure = "ssl";                 
     $mail->Host       = "smtp.gmail.com";      
     $mail->Port       = 465;                   
-    $mail->Username   = $app_sender;  			         // GMAIL username
-    $mail->Password   = $app_password;            // GMAIL app password
-    $mail->AddReplyTo($from, 'Re: '.$title);
+    $mail->Username   = $app_sender;            // GMAIL username
+    $mail->Password   = $app_password;          // GMAIL app password
+    $mail->AddReplyTo($from, 'Re: '.$subject);
     $mail->AddAddress($to, $to_name);
    
     $mail->SetFrom($from, $from_name);
     $mail->Subject = $subject;
     $mail->MsgHTML($body);
     $mail->Send();
-    echo "Message Sent OK</p>\n";
+    return true;
   } 
-  catch (phpmailerException $e) {
-    echo $e->errorMessage();                    //error from PHPMailer
+  catch (phpmailerException $e) { 
+    return $e->errorMessage();                  //error from PHPMailer
   } 
   catch (Exception $e) {
-    echo $e->getMessage();                      //error from anything else!
+    return $e->getMessage();                    //error from anything else
   }
 }
 ?>
