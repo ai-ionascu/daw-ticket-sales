@@ -216,8 +216,8 @@ function get_stops($routes){
 $dep_stations = get_dep_stations();
 $trains = get_trains($dep_stations);
 $routes = get_routes($trains);
-$departures = get_departures($routes);
-$arrivals = get_arrivals($routes);
+// $departures = get_departures($routes);
+// $arrivals = get_arrivals($routes);
 $stops = get_stops($routes);
 
 ?>

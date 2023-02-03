@@ -1,7 +1,19 @@
 <?php
 
-include('db_con.php');
-include('web_scraper/scrape.php');
+require_once('conf/config.php');
+$servername = $config['SERVER_NAME'];
+$username = $config['DB_USER'];
+$password = $config['DB_PASS'];
+$db_name = $config['DB_NAME'];
+$con = mysqli_connect($servername, $username, $password, $db_name);
+if (mysqli_connect_errno()) {
+  echo "DB connection failed: " . mysqli_connect_error();
+  exit();
+}
+
+mysqli_select_db($con, $db_name);
+
+include('scrape.php');
 
 # add into trains table
 function insert_trains($trains){
@@ -179,13 +191,13 @@ function insert_stops($stops){
             # query stations table for the entry corresponding to $arr value and get the id value
             $station_query = "SELECT id FROM stations WHERE name='$name'";
             $station_query_run = mysqli_query($con, $station_query);
-            $station_fk = mysqli_fetch($station_query_run);
+            $station_fk = mysqli_fetch_assoc($station_query_run);
             $station_fk = $station_fk['id'];
 
             # query routes table for the entry corresponding to $arr value and get the id value
             $route_query = "SELECT routes.id FROM routes JOIN trains ON routes.train_id=trains.id WHERE trains.name='$train'";
             $route_query_run = mysqli_query($con, $route_query);
-            $route_fk = mysqli_fetch($route_query_run);
+            $route_fk = mysqli_fetch_assoc($route_query_run);
             $route_fk = $route_fk['id'];
 
             # check if stop exists in the db
@@ -205,8 +217,10 @@ function insert_stops($stops){
                     $line = random_int(1,10);
                     $order = $stop['order'];
                     $prev_stop_dist = $stop['distance'];
-                    ($stop == end($route)) ? $arrival_time = "NULL" : $arrival_time = $stop['arrival_time'];
-                    ($stop == end($route)) ? $next_day_arrival = "NULL" : $next_day_arrival = $stop['next_day_arrival'];
+                    $arrival_time = $stop['arrival_time'];
+                    $next_day_arrival = $stop['next_day_arrival'];
+                    // ($stop == end($route)) ? $arrival_time = "" : $arrival_time = $stop['arrival_time'];
+                    // ($stop == end($route)) ? $next_day_arrival = "" : $next_day_arrival = $stop['next_day_arrival'];
                     (array_key_exists('departure_time', $stop)) ? $departure_time = $stop['departure_time'] : $departure_time = "NULL";
                     (array_key_exists('next_day_departure', $stop)) ? $next_day_departure = $stop['next_day_departure'] : $next_day_departure = "NULL";
 
@@ -273,13 +287,13 @@ function insert_seats(){
     }
 }
     
-insert_trains($trains);   
-insert_stations($departures, $arrivals, $stops);
-insert_departures($departures);
-insert_arrivals($arrivals);
-insert_routes($routes);
+// insert_trains($trains);   
+// insert_stations($departures, $arrivals, $stops);
+// insert_departures($departures);
+// insert_arrivals($arrivals);
+// insert_routes($routes);
 insert_stops($stops);
-insert_cars($trains);
-insert_seats();
+// insert_cars($trains);
+// insert_seats();
 
 ?>
