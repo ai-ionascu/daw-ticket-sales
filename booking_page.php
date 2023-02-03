@@ -21,10 +21,12 @@ include('include/header.php') ;
                                             <table class="table">
                                                 <thead class="table-dark">
                                                 <tr>
+                                                    <th class="text-center">Date</th>
                                                     <th class="text-center">Departure</th>
                                                     <th class="text-center">Arrival</th>
                                                     <th class="text-center">Departure Time</th>
-                                                    <th class="text-center">Total Trip</th>
+                                                    <th class="text-center">Trip Time</th>
+                                                    <th class="text-center">Distance</th>
                                                     <th class="text-center">Train</th>
                                                     <th class="text-center">Operator</th>
                                                     <th class="text-center">Fare</th>
@@ -33,15 +35,32 @@ include('include/header.php') ;
                                                 <tbody class="table-border-bottom-0">
                                                 <?php
 foreach ($_SESSION['routes_query'] as $key => $row){?>
-    
-    <tr><td class="text-center"><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong><?php echo $row['departure']?></strong></td>
-    <td class="text-center"><strong><?php echo $row['arrival']?></strong></td>
-    <td class="text-center"><?php echo $row['dep_time']?></td>
-    <td class="text-center"><?php echo $row['trip_time']?></td>
-    <td class="text-center"><?php echo $row['train']?></td>
-    <td class="text-center"><?php echo $row['operator']?></td>
+    <tr><td class="text-center"><strong><?php echo date("d-M-Y", strtotime($row['dep_time']));?></strong></td>
+    <td class="text-center"><strong><?php echo $row['departure'];?></strong></td>
+    <td class="text-center"><strong><?php echo $row['arrival'];?></strong></td>
+    <td class="text-center"><?php echo date("H:i", strtotime($row['dep_time']));?></td>
+    <td class="text-center"><?php echo $row['trip_time'];?></td>
+    <td class="text-center"><?php echo $row['trip_time'];?></td>
+    <td class="text-center"><?php echo $row['train'];?></td>
+    <td class="text-center"><?php echo $row['operator'];?></td>
 </tr>
- <?php } ?>
+<tr>
+    <td colspan="2">
+        <p>
+            <a class="btn btn-primary" data-bs-toggle="collapse" href="<?php echo '#collapse'.$key;?>" role="button">
+                Stops
+            </a>
+        </p>
+        <div class="collapse" id="<?php echo 'collapse'.$key;?>">
+            <div class="card card-body">
+                <?php foreach (array_reverse($_SESSION['stops'][$row['route']]) as $i=>$st) {?>   
+                    <span><i><?php echo $i+1;?>. </i><?php echo $st['name'];?></span>
+                <?php } ?>
+            </div>
+        </div>
+    </td>
+</tr>
+<?php } ?>
                                                 </tbody>
                                             </table>
                                         </div>
