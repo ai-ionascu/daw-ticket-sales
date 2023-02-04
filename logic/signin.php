@@ -44,6 +44,9 @@ if(isset($_POST['login'])){
                 }
                 $_SESSION['logged_in'] = true;
                 $_SESSION['success'] = 'You have successfully signed in.';
+                if (isset($_SESSION['booking'])){
+                    header('Location: ../booking_page.php?results');
+                }
                 header('Location: ../index.php');
             }
             else{

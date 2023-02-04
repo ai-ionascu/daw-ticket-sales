@@ -103,13 +103,6 @@ if (isset($_POST['search'])) {
         }  
     }
 
-    if(empty($_POST['class'])){
-        $form_errors['class'] = "Invalid class selection.";
-    }
-    else{
-        $class = mysqli_real_escape_string($con, $_POST['class']);
-    }
-
     if(empty($_POST['passengers'])){
         $form_errors['passengers'] = "Invalid number of passengers.";
     }
@@ -223,7 +216,7 @@ if (isset($_POST['search'])) {
                 $r['trip_time'] = $trip_hours.':'.$trip_min;
                 $r_id = $r['route'];
 
-                $stops_query = "SELECT stops.order as ord, stations.name as name, stops.arrival_time as arr_time,
+                $stops_query = "SELECT stops.order as ord, stations.name as name, stops.arrival_time as st_arr,
                                         stops.next_day_arrival as nd_arr, stops.departure_time as st_dep,
                                         stops.next_day_departure as nd_dep, stops.line as line, 
                                         stops.prev_stop_dist as dist 
@@ -235,16 +228,47 @@ if (isset($_POST['search'])) {
 
                 $dep_index = search_nested($departure, $stops);
                 $arr_index = search_nested($arrival, $stops);
+                $tot_dist = 0;
 
-                for ($i=$arr_index; $i >=0; $i--){
-                    if ($i == $dep_index){
+                for ($i=$arr_index; $i >=max(0,$dep_index); $i--){
+                    if ($stops[$i]['name'] == $r['departure']){
                         break;
                     }
                     $trip_stops[$r_id][] = $stops[$i];
+                    $tot_dist = $tot_dist + (float) $stops[$i]['dist'];
                 }
+                $r['dist'] = $tot_dist;
+
+                $seats_1_query = "SELECT cars.number as car, seats.number as seat
+                                FROM `cars` JOIN `seats` ON cars.id = `seats`.car_id 
+                                JOIN `trains` ON `cars`.trains_id=`trains`.id JOIN `routes` ON `routes`.train_id=`trains`.id
+                                WHERE `routes`.id='$r_id' AND `cars`.`class`=1 AND `seats`.`occupied`=0";
+                
+                $seats_1_query_run = mysqli_query($con, $seats_1_query);
+                $seats_1 = mysqli_fetch_all($seats_1_query_run, MYSQLI_ASSOC);
+
+                $seats_2_query = "SELECT cars.number as car, seats.number as seat 
+                                FROM `cars` JOIN `seats` ON cars.id = `seats`.car_id 
+                                JOIN `trains` ON `cars`.trains_id=`trains`.id JOIN `routes` ON `routes`.train_id=`trains`.id
+                                WHERE `routes`.id='$r_id' AND `cars`.`class`=2 AND `seats`.`occupied`=0";
+                
+                $seats_2_query_run = mysqli_query($con, $seats_2_query);
+                $seats_2 = mysqli_fetch_all($seats_2_query_run, MYSQLI_ASSOC);
+
+                $seats_st_query = "SELECT trains.standing_seats as standing
+                                FROM `routes` JOIN `trains` ON `routes`.train_id=`trains`.id
+                                WHERE `routes`.id='$r_id'";
+                
+                $seats_st_query_run = mysqli_query($con, $seats_st_query);
+                $seats_st = mysqli_fetch_all($seats_st_query_run, MYSQLI_ASSOC);
+
+                $r['seats_1'] = $seats_1;
+                $r['seats_2'] = $seats_2;
+                $r['seats_st'] = $seats_st;
+                $r['passengers'] = $passengers;
             }
             
-            $_SESSION['routes_query'] = $routes;
+            $_SESSION['route_info'] = $routes;
             $_SESSION['stops'] = $trip_stops;
             header("Location: ../booking_page.php?results");
         }
