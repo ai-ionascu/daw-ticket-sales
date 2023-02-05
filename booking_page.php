@@ -143,6 +143,7 @@ else if (isset($_GET['route'])){ ?>
                     <h5 class="mb-0">Reservation Details</h5>
                     <small class="text-muted float-end">Train2Go</small>
                 </div>
+
                 <div class="card-body">
                     <form action="logic/confirm_booking.php" method="post">
                         <div class="row">
@@ -243,10 +244,30 @@ else if (isset($_GET['route'])){ ?>
                             </div>
                         <?php } ?>
                         <div class="row">
+                            <p><span><?php if ($_SESSION['fare'] == '1'){
+                                    echo '1st Class';
+                            }else if ($_SESSION['fare'] == '2'){
+                                    echo '2nd Class';
+                                }else{
+                                    echo 'Standing';
+                                }
+                            ?>
+                                </span>&emsp;&emsp;&emsp;<span>Price: <?php if ($_SESSION['fare'] == '1'){
+                                    echo $price=130;
+                            }else if ($_SESSION['fare'] == '2'){
+                                    echo $price=80;
+                                }else{
+                                    echo $price=55;
+                                }
+                            ?></span></p>
+                            <input type="hidden" id="price" name="price" value="<?php echo $price; ?>">
+                        </div>
+                        <div class="row">
                             <button type="submit" name="book" id="book" class="btn btn-primary">Confirm Booking</button>
                         </div>
                     </form>
                 </div>
+
             </div>
         </div>
     </div>
